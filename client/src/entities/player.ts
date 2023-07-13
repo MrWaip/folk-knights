@@ -1,24 +1,29 @@
 import { Bodies, Body } from "matter-js";
-import { Graphics } from "pixi.js";
+import { AnimatedSprite } from "pixi.js";
+import { getPlayerSpritesheet } from "../assets/spritesheets/playerSpritesheet";
 
-export function playerFactory(): App.ECSEntity {
+export async function playerFactory(): Promise<App.ECSEntity> {
+  const spritesheet = await getPlayerSpritesheet();
   const x = 100;
   const y = 0;
-  const width = 50;
-  const height = 50;
-  const pivotX = width / 2;
-  const pivotY = height / 2;
+  const width = 128;
+  const height = 128;
 
   const body = Bodies.rectangle(0, 0, width, height);
-  const render = new Graphics();
+  const render = new AnimatedSprite(spritesheet.animations.idle);
 
-  render.beginFill(0xffff);
-  render.drawRect(0, 0, width, height);
+  render.anchor.set(0.5, 0.5);
 
   Body.setPosition(body, { x, y });
-  render.x = x;
-  render.y = y;
-  render.pivot = { x: pivotX, y: pivotY };
 
-  return { body, render, controlledByInput: true };
+  return {
+    body,
+    render,
+    animated: true,
+    playerInput: {
+      direction: "right",
+      isJumping: false,
+      isMoving: false,
+    },
+  };
 }

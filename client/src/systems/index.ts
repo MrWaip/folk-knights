@@ -1,4 +1,4 @@
-import { movementSystem } from "./movementSystem";
+import { movementSystem } from "./playerInputSystem";
 import { renderSystem } from "./renderSystem";
 
 export const updateSystems: App.ECSSystem = (ctx) => {
