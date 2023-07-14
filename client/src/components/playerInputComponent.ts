@@ -1,5 +1,5 @@
 export type PlayerInputComponent = {
-  isMoving: boolean;
-  direction: "left" | "right";
+  isMovingRight: boolean;
+  isMovingLeft: boolean;
   isJumping: boolean;
 };

@@ -1,16 +1,27 @@
 import { Body } from "matter-js";
 
-export const movementSystem: App.ECSSystem = ({ queries }) => {
-  for (const { body, playerInput } of queries.controlledByInput) {
-    
-    if(pla)
+export const playerMovementSystem: App.ECSSystem = ({ queries }) => {
+  for (const { body, playerInput, jump } of queries.controlledByInput) {
+    if (playerInput.isMovingRight) {
+      Body.setVelocity(body, {
+        x: Math.min(body.velocity.x + 4, 4),
+        y: body.velocity.y,
+      });
+    }
 
-    // if (pl) {
-    //   Body.setVelocity(body, { x: 5, y: body.velocity.y });
-    // } else if (action === Actions.Left) {
-    //   Body.setVelocity(body, { x: -5, y: body.velocity.y });
-    // } else if (jumping) {
-    //   Body.setVelocity(body, { x: body.velocity.x, y: -10 });
-    // }
+    if (playerInput.isMovingLeft) {
+      Body.setVelocity(body, {
+        x: Math.max(body.velocity.x - 4, -4),
+        y: body.velocity.y,
+      });
+    }
+
+    if (playerInput.isJumping && jump && !jump.isJumping) {
+      jump.isJumping = true;
+
+      // Body.setVelocity(body, { x: body.velocity.x, y: -10 });
+
+      Body.applyForce(body, body.position, { x: 0, y: -0.3 });
+    }
   }
 };

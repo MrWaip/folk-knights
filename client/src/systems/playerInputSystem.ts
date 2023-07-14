@@ -1,39 +1,53 @@
-import { Body } from "matter-js";
+const playerControl = {
+  isMovingUp: false,
+  isMovingDown: false,
+  isMovingLeft: false,
+  isMovingRight: false,
+  isJumping: false,
+};
 
-export enum Actions {
-  Left,
-  Right,
-  Jump,
-  Nope,
-}
-
-let action = Actions.Nope;
-let jumping = false;
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "d") {
-    action = Actions.Right;
-  } else if (e.key === "a") {
-    action = Actions.Left;
-  } else if (e.code === "Space" && !jumping) {
-    // action = Actions.Jump;
-    jumping = true;
+window.addEventListener("keydown", (event) => {
+  switch (event.code) {
+    case "KeyW":
+      playerControl.isMovingUp = true;
+      break;
+    case "KeyS":
+      playerControl.isMovingDown = true;
+      break;
+    case "KeyA":
+      playerControl.isMovingLeft = true;
+      break;
+    case "KeyD":
+      playerControl.isMovingRight = true;
+      break;
+    case "Space":
+      playerControl.isJumping = true;
+      break;
   }
 });
 
-document.addEventListener("keyup", () => {
-  action = Actions.Nope;
-  jumping = false;
+window.addEventListener("keyup", (event) => {
+  switch (event.code) {
+    case "KeyW":
+      playerControl.isMovingUp = false;
+      break;
+    case "KeyS":
+      playerControl.isMovingDown = false;
+      break;
+    case "KeyA":
+      playerControl.isMovingLeft = false;
+      break;
+    case "KeyD":
+      playerControl.isMovingRight = false;
+      break;
+    case "Space":
+      playerControl.isJumping = false;
+      break;
+  }
 });
 
-export const movementSystem: App.ECSSystem = ({ queries }) => {
-  for (const { body } of queries.controlledByInput) {
-    if (action === Actions.Right) {
-      Body.setVelocity(body, { x: 5, y: body.velocity.y });
-    } else if (action === Actions.Left) {
-      Body.setVelocity(body, { x: -5, y: body.velocity.y });
-    } else if (jumping) {
-      Body.setVelocity(body, { x: body.velocity.x, y: -10 });
-    }
+export const playerInputSystem: App.ECSSystem = ({ queries }) => {
+  for (const { playerInput } of queries.controlledByInput) {
+    Object.assign(playerInput, playerControl);
   }
 };

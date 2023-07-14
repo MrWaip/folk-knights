@@ -1,15 +1,26 @@
 import { Composite } from "matter-js";
-import { ECSWorld, PhysWorld, RenderContainer } from "../re-exports";
+import {
+  ECSWorld,
+  PhysEngine,
+  PhysWorld,
+  RenderContainer,
+} from "../re-exports";
 import { ecsQueries } from "./ecsQueries";
-import { updateSystems } from "../systems";
+import { registerSystems } from "../systems";
 
 export class EntityManager {
   private ecs: App.ECSWorld;
   private queries: App.ECSQueries;
+  private system: App.ECSSystem;
 
-  constructor(private stage: RenderContainer, private physWorld: PhysWorld) {
+  constructor(
+    private stage: RenderContainer,
+    private physEngine: PhysEngine,
+    private physWorld: PhysWorld
+  ) {
     this.ecs = new ECSWorld();
     this.queries = ecsQueries(this.ecs);
+    this.system = registerSystems({ physEngine: this.physEngine });
   }
 
   public addEntity(entity: App.ECSEntity) {
@@ -21,6 +32,6 @@ export class EntityManager {
   }
 
   public updateSystems(deltaTime: number) {
-    updateSystems({ deltaTime, queries: this.queries });
+    this.system({ deltaTime, queries: this.queries });
   }
 }

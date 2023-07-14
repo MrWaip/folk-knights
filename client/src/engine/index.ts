@@ -12,8 +12,12 @@ export class GameEngine {
 
   constructor() {
     this.stage = new RenderContainer();
-    this.physEngine = PhysEngine.create({ gravity: { x: 0, y: 3 } });
-    this.entityManager = new EntityManager(this.stage, this.physEngine.world);
+    this.physEngine = PhysEngine.create({ gravity: { x: 0, y: 2 } });
+    this.entityManager = new EntityManager(
+      this.stage,
+      this.physEngine,
+      this.physEngine.world
+    );
 
     this.ticker = Ticker.shared;
 
