@@ -1,6 +1,6 @@
 import { Graphics } from "pixi.js";
-import { GameEngine } from "./engine";
-import { playerFactory } from "./entities/player";
+import { GameEngine } from "../src/engine";
+import { playerFactory } from "../src/entities/player";
 import { Bodies, Body } from "matter-js";
 
 const gameEngine = new GameEngine();
