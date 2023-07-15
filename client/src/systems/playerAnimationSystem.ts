@@ -25,7 +25,6 @@ export const playerAnimationSystem: App.ECSSystem = ({ queries }) => {
         if (currentFrame === 5) {
           playerAnimation.name = "";
           render.onFrameChange = undefined;
-          console.log(playerAnimation, "");
         }
       };
 
@@ -64,7 +63,7 @@ export const playerAnimationSystem: App.ECSSystem = ({ queries }) => {
       playerAnimation.name = "walk";
       render.loop = true;
       render.textures = playerAnimation.spritesheet.animations.walk;
-      render.animationSpeed = 0.1;
+      render.animationSpeed = 0.2;
       render.gotoAndPlay(0);
       continue;
     }

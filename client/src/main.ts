@@ -1,5 +1,5 @@
 import { Graphics } from "pixi.js";
-import { GameEngine } from "./engine";
+import { GameEngine } from "./engine/gameEngine";
 import { playerFactory } from "./entities/player";
 import { Bodies, Body } from "matter-js";
 
@@ -10,7 +10,7 @@ gameEngine.addEntity(await playerFactory());
 gameEngine.addEntity(
   (() => {
     const x = 400;
-    const y = 600;
+    const y = 630;
     const width = 300;
     const height = 20;
     const body = Bodies.rectangle(0, 0, width, height, {

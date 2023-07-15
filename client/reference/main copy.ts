@@ -1,5 +1,5 @@
 import { Graphics } from "pixi.js";
-import { GameEngine } from "../src/engine";
+import { GameEngine } from "../src/engine/gameEngine";
 import { playerFactory } from "../src/entities/player";
 import { Bodies, Body } from "matter-js";
 
