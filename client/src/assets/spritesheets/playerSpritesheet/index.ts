@@ -411,7 +411,7 @@ const atlas = {
     },
   },
   animations: {
-    "Attack 1": [
+    attacking: [
       "Attack 1-0.png",
       "Attack 1-1.png",
       "Attack 1-2.png",

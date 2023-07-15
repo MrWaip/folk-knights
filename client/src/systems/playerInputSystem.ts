@@ -5,6 +5,7 @@ const playerControl = {
   isMovingRight: false,
   isJumping: false,
   isRunning: false,
+  isAttacking: false,
 };
 
 window.addEventListener("keydown", (event) => {
@@ -53,6 +54,17 @@ window.addEventListener("keyup", (event) => {
   if (!event.shiftKey) {
     playerControl.isRunning = false;
   }
+});
+
+let timeoutIndex: any = undefined;
+
+window.addEventListener("click", (event) => {
+  playerControl.isAttacking = true;
+  clearTimeout(timeoutIndex);
+  timeoutIndex = setTimeout(() => {
+    playerControl.isAttacking = false;
+    timeoutIndex = undefined;
+  }, 100);
 });
 
 export const playerInputSystem: App.ECSSystem = ({ queries }) => {

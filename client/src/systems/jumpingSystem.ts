@@ -6,10 +6,12 @@ export const jumpingSystemFactory: App.ECSSystemFactory = ({ physEngine }) => {
   Events.on(physEngine, "collisionStart", ({ pairs }) => {
     for (const { bodyA, bodyB, collision } of pairs) {
       const pair = [bodyA, bodyB];
-      const floor = pair.find((b) => b.label === "floor");
-      const player = pair.find((b) => b.label === "player");
+      const floor = pair.find(
+        (b) => !["playerSensor", "playerBody"].includes(b.label)
+      );
+      const player = pair.find((b) => b.label === "playerSensor");
 
-      if (floor && player && collision.normal.y === -1) {
+      if (floor && player && collision.normal.y < 0) {
         isGrounded = true;
       }
     }
@@ -18,10 +20,12 @@ export const jumpingSystemFactory: App.ECSSystemFactory = ({ physEngine }) => {
   Events.on(physEngine, "collisionEnd", ({ pairs }) => {
     for (const { bodyA, bodyB, collision } of pairs) {
       const pair = [bodyA, bodyB];
-      const floor = pair.find((b) => b.label === "floor");
-      const player = pair.find((b) => b.label === "player");
+      const floor = pair.find(
+        (b) => !["playerSensor", "playerBody"].includes(b.label)
+      );
+      const player = pair.find((b) => b.label === "playerSensor");
 
-      if (floor && player && collision.normal.y === -1) {
+      if (floor && player && collision.normal.y < 0) {
         isGrounded = false;
       }
     }

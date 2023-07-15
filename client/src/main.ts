@@ -2,10 +2,12 @@ import { Graphics } from "pixi.js";
 import { GameEngine } from "./engine/gameEngine";
 import { playerFactory } from "./entities/player";
 import { Bodies, Body } from "matter-js";
+import { enemyFactory } from "./entities/enemy";
 
 const gameEngine = new GameEngine();
 
 gameEngine.addEntity(await playerFactory());
+gameEngine.addEntity(enemyFactory());
 
 gameEngine.addEntity(
   (() => {

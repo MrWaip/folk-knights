@@ -1,8 +1,28 @@
-import { Body } from "matter-js";
+import { Body, Vector } from "matter-js";
 
 export const playerMovementSystem: App.ECSSystem = ({ queries }) => {
-  for (const { body, playerInput, jump } of queries.controlledByInput) {
+  for (const {
+    body,
+    playerInput,
+    jump,
+    playerAttack,
+  } of queries.controlledByInput) {
     const velocityMultiplier = playerInput.isRunning ? 8 : 4;
+
+    if (playerAttack?.isAttacking) {
+      const direction = playerInput.isMovingRight
+        ? 1
+        : playerInput.isMovingLeft
+        ? -1
+        : 0;
+
+      Body.setVelocity(body, {
+        x: Math.sign(direction) * 2,
+        y: 0,
+      });
+
+      continue;
+    }
 
     if (playerInput.isMovingRight) {
       Body.setVelocity(body, {
@@ -21,7 +41,7 @@ export const playerMovementSystem: App.ECSSystem = ({ queries }) => {
     if (playerInput.isJumping && jump && !jump.isJumping) {
       jump.isJumping = true;
 
-      Body.applyForce(body, body.position, { x: 0, y: -0.3 });
+      Body.setVelocity(body, { x: body.velocity.x, y: -15 });
     }
   }
 };

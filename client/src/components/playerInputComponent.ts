@@ -3,4 +3,5 @@ export type PlayerInputComponent = {
   isMovingLeft: boolean;
   isJumping: boolean;
   isRunning: boolean;
+  isAttacking: boolean;
 };

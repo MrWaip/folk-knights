@@ -1,5 +1,5 @@
 import { Bodies, Body } from "matter-js";
-import { AnimatedSprite, Graphics } from "pixi.js";
+import { AnimatedSprite } from "pixi.js";
 import { getPlayerSpritesheet } from "../assets/spritesheets/playerSpritesheet";
 
 export async function playerFactory(): Promise<App.ECSEntity> {
@@ -9,12 +9,25 @@ export async function playerFactory(): Promise<App.ECSEntity> {
   const width = 64;
   const height = 128;
 
-  const body = Bodies.rectangle(0, 0, width, height, {
+  const mainBody = Bodies.rectangle(0, 0, width, height, {
+    isStatic: true,
+    angle: 0,
+    label: "playerBody",
+  });
+
+  const sensor = Bodies.rectangle(0, 54, width, 20, {
+    isSensor: true,
+    isStatic: true,
+    label: "playerSensor",
+    angle: 0,
+  });
+
+  const body = Body.create({
+    parts: [mainBody, sensor],
     restitution: 0,
-    friction: 1,
+    friction: 0.7,
     inertia: Infinity,
     angle: 0,
-    label: "player",
     mass: 10,
   });
 
@@ -37,12 +50,20 @@ export async function playerFactory(): Promise<App.ECSEntity> {
     jump: {
       isJumping: false,
       velocity: 10,
+      isGrounded: false,
     },
     collision: { isGrounded: false },
     playerInput: {
+      isRunning: false,
       isMovingRight: false,
       isMovingLeft: false,
       isJumping: false,
+      isAttacking: false,
+    },
+    playerAttack: {
+      duration: 300,
+      finishTime: 0,
+      isAttacking: false,
     },
   };
 }

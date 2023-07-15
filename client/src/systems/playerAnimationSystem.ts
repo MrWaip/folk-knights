@@ -7,6 +7,7 @@ enum Animation {
   Walking = "walking",
   Idle = "idle",
   Running = "running",
+  Attacking = "attacking",
 }
 
 function playAnimation(
@@ -29,12 +30,22 @@ export const playerAnimationSystem: App.ECSSystem = ({ queries }) => {
     jump,
     playerInput,
     playerAnimation,
+    playerAttack,
   } of queries.playerAnimation) {
     if (!(render instanceof AnimatedSprite)) continue;
 
     if (playerInput.isMovingLeft || playerInput.isMovingRight) {
       render.scale.x =
         Math.abs(render.scale.x) * (playerInput.isMovingRight ? 1 : -1);
+    }
+
+    if (playerAttack?.isAttacking) {
+      playAnimation(Animation.Attacking, render, playerAnimation, {
+        loop: false,
+        animationSpeed: 0.4,
+      });
+
+      continue;
     }
 
     if (jump.isGrounded && playerAnimation.name === Animation.Falling) {
