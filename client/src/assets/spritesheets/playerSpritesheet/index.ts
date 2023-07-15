@@ -447,7 +447,7 @@ const atlas = {
     ],
     Hurt: ["Hurt-0.png", "Hurt-1.png"],
     idle: ["Idle-0.png", "Idle-1.png", "Idle-2.png", "Idle-3.png"],
-    jump: [
+    jumping: [
       "Jump-0.png",
       "Jump-1.png",
       "Jump-2.png",
@@ -455,7 +455,7 @@ const atlas = {
       "Jump-4.png",
       "Jump-5.png",
     ],
-    Run: [
+    running: [
       "Run-0.png",
       "Run-1.png",
       "Run-2.png",
@@ -464,7 +464,7 @@ const atlas = {
       "Run-5.png",
       "Run-6.png",
     ],
-    dash: [
+    dashing: [
       "Run+Attack-0.png",
       "Run+Attack-1.png",
       "Run+Attack-2.png",
@@ -472,7 +472,7 @@ const atlas = {
       "Run+Attack-4.png",
       "Run+Attack-5.png",
     ],
-    walk: [
+    walking: [
       "Walk-0.png",
       "Walk-1.png",
       "Walk-2.png",
@@ -482,6 +482,8 @@ const atlas = {
       "Walk-6.png",
       "Walk-7.png",
     ],
+    landing: ["Jump-2.png", "Jump-3.png", "Jump-4.png", "Jump-5.png"],
+    falling: ["Jump-2.png"],
   },
   meta: {
     app: "https://www.codeandweb.com/texturepacker",

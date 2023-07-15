@@ -1,8 +1,29 @@
 import { AnimatedSprite } from "pixi.js";
 
+enum Animation {
+  Landing = "landing",
+  Falling = "falling",
+  Jumping = "jumping",
+  Walking = "walking",
+  Idle = "idle",
+}
+
+function playAnimation(
+  name: Animation,
+  sprite: AnimatedSprite,
+  component: NonNullable<App.ECSEntity["playerAnimation"]>,
+  settings: Partial<AnimatedSprite>
+) {
+  if (component.name === name) return;
+
+  component.name = name;
+  sprite.textures = component.spritesheet.animations[name];
+  Object.assign(sprite, settings);
+  sprite.gotoAndPlay(0);
+}
+
 export const playerAnimationSystem: App.ECSSystem = ({ queries }) => {
   for (const {
-    body,
     render,
     jump,
     playerInput,
@@ -10,71 +31,54 @@ export const playerAnimationSystem: App.ECSSystem = ({ queries }) => {
   } of queries.playerAnimation) {
     if (!(render instanceof AnimatedSprite)) continue;
 
-    const name = playerAnimation.name;
-
-    if (jump.isGrounded && (name === "falling" || name === "prizeml")) {
-      if (name === "prizeml") continue;
-
-      playerAnimation.name = "prizeml";
-      render.loop = false;
-      render.textures = playerAnimation.spritesheet.animations.jump;
-      render.animationSpeed = 0.2;
-      render.gotoAndPlay(2);
-
-      render.onFrameChange = (currentFrame) => {
-        if (currentFrame === 5) {
-          playerAnimation.name = "";
-          render.onFrameChange = undefined;
-        }
-      };
-
-      continue;
-    }
-
     if (playerInput.isMovingLeft || playerInput.isMovingRight) {
       render.scale.x =
         Math.abs(render.scale.x) * (playerInput.isMovingRight ? 1 : -1);
     }
 
-    if (jump.isJumping) {
-      if (name === "jump") continue;
+    if (jump.isGrounded && playerAnimation.name === Animation.Falling) {
+      playAnimation(Animation.Landing, render, playerAnimation, {
+        loop: false,
+        animationSpeed: 0.2,
+      });
 
-      playerAnimation.name = "jump";
-      render.loop = false;
-      render.textures = playerAnimation.spritesheet.animations.jump;
-      render.animationSpeed = 0.05;
-      render.gotoAndPlay(0);
+      continue;
+    }
+
+    if (playerAnimation.name === Animation.Landing && render.playing) {
+      continue;
+    }
+
+    if (jump.isJumping) {
+      playAnimation(Animation.Jumping, render, playerAnimation, {
+        loop: false,
+        animationSpeed: 0.05,
+      });
+
       continue;
     }
 
     if (!jump.isGrounded) {
-      if (name === "falling") continue;
+      playAnimation(Animation.Falling, render, playerAnimation, {
+        loop: false,
+        animationSpeed: 0,
+      });
 
-      playerAnimation.name = "falling";
-      render.loop = false;
-      render.textures = playerAnimation.spritesheet.animations.jump;
-      render.gotoAndPlay(2);
-      render.animationSpeed = 0;
       continue;
     }
 
     if (playerInput.isMovingLeft || playerInput.isMovingRight) {
-      if (name === "walk") continue;
-      playerAnimation.name = "walk";
-      render.loop = true;
-      render.textures = playerAnimation.spritesheet.animations.walk;
-      render.animationSpeed = 0.2;
-      render.gotoAndPlay(0);
+      playAnimation(Animation.Walking, render, playerAnimation, {
+        loop: true,
+        animationSpeed: 0.2,
+      });
+
       continue;
     }
 
-    if (name !== "idle") {
-      playerAnimation.name = "idle";
-      render.loop = true;
-
-      render.textures = playerAnimation.spritesheet.animations.idle;
-      render.animationSpeed = 0.1;
-      render.gotoAndPlay(0);
-    }
+    playAnimation(Animation.Idle, render, playerAnimation, {
+      loop: true,
+      animationSpeed: 0.1,
+    });
   }
 };
