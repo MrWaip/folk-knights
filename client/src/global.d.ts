@@ -26,6 +26,10 @@ declare global {
 
     type ECSSystem = (ctx: { queries: ECSQueries; deltaTime: number }) => void;
 
-    type ECSSystemFactory = (ctx: { physEngine: PhysEngine }) => ECSSystem;
+    type ECSSystemFactory = (ctx: {
+      physEngine: PhysEngine;
+      stage: Container;
+      ecs: ECSWorld;
+    }) => ECSSystem;
   }
 }

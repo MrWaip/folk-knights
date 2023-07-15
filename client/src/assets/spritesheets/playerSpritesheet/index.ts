@@ -453,7 +453,7 @@ const atlas = {
       "Jump-2.png",
       "Jump-3.png",
       "Jump-4.png",
-      "Jump-5.png",
+      // "Jump-5.png",
     ],
     running: [
       "Run-0.png",

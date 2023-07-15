@@ -22,7 +22,7 @@ export class GameEngine {
     this.ticker = Ticker.shared;
 
     this.renderer = new Renderer({
-      width: 1300,
+      width: 1280,
       height: 800,
       backgroundColor: 0x1099bb,
     });

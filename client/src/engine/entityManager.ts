@@ -20,7 +20,12 @@ export class EntityManager {
   ) {
     this.ecs = new ECSWorld();
     this.queries = ecsQueries(this.ecs);
-    this.system = registerSystems({ physEngine: this.physEngine });
+
+    this.system = registerSystems({
+      physEngine: this.physEngine,
+      stage: this.stage,
+      ecs: this.ecs,
+    });
   }
 
   public addEntity(entity: App.ECSEntity) {

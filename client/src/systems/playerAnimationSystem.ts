@@ -6,6 +6,7 @@ enum Animation {
   Jumping = "jumping",
   Walking = "walking",
   Idle = "idle",
+  Running = "running",
 }
 
 function playAnimation(
@@ -68,10 +69,17 @@ export const playerAnimationSystem: App.ECSSystem = ({ queries }) => {
     }
 
     if (playerInput.isMovingLeft || playerInput.isMovingRight) {
-      playAnimation(Animation.Walking, render, playerAnimation, {
-        loop: true,
-        animationSpeed: 0.2,
-      });
+      if (playerInput.isRunning) {
+        playAnimation(Animation.Running, render, playerAnimation, {
+          loop: true,
+          animationSpeed: 0.2,
+        });
+      } else {
+        playAnimation(Animation.Walking, render, playerAnimation, {
+          loop: true,
+          animationSpeed: 0.2,
+        });
+      }
 
       continue;
     }

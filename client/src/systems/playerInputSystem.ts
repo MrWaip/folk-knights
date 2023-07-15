@@ -4,6 +4,7 @@ const playerControl = {
   isMovingLeft: false,
   isMovingRight: false,
   isJumping: false,
+  isRunning: false,
 };
 
 window.addEventListener("keydown", (event) => {
@@ -24,6 +25,10 @@ window.addEventListener("keydown", (event) => {
       playerControl.isJumping = true;
       break;
   }
+
+  if (event.shiftKey) {
+    playerControl.isRunning = true;
+  }
 });
 
 window.addEventListener("keyup", (event) => {
@@ -43,6 +48,10 @@ window.addEventListener("keyup", (event) => {
     case "Space":
       playerControl.isJumping = false;
       break;
+  }
+
+  if (!event.shiftKey) {
+    playerControl.isRunning = false;
   }
 });
 

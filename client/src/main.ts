@@ -37,7 +37,7 @@ gameEngine.addEntity(
   (() => {
     const x = 1280 / 2;
     const y = 800;
-    const width = 1280;
+    const width = 3280;
     const height = 20;
     const body = Bodies.rectangle(0, 0, width, height, {
       label: "floor",

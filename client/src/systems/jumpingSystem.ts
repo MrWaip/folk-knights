@@ -30,6 +30,7 @@ export const jumpingSystemFactory: App.ECSSystemFactory = ({ physEngine }) => {
   return ({ queries }) => {
     for (const { jump, body } of queries.jumpers) {
       jump.isGrounded = isGrounded;
+
       if (jump.isGrounded && jump.isJumping) {
         jump.isJumping = false;
       }
