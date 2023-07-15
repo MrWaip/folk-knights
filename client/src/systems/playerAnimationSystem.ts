@@ -31,13 +31,11 @@ export const playerAnimationSystem: App.ECSSystem = ({ queries }) => {
     playerInput,
     playerAnimation,
     playerAttack,
+    direction,
   } of queries.playerAnimation) {
     if (!(render instanceof AnimatedSprite)) continue;
 
-    if (playerInput.isMovingLeft || playerInput.isMovingRight) {
-      render.scale.x =
-        Math.abs(render.scale.x) * (playerInput.isMovingRight ? 1 : -1);
-    }
+    render.scale.x = Math.abs(render.scale.x) * direction;
 
     if (playerAttack?.isAttacking) {
       playAnimation(Animation.Attacking, render, playerAnimation, {

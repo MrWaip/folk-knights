@@ -20,6 +20,7 @@ export class GameEngine {
     );
 
     this.ticker = Ticker.shared;
+    this.ticker.maxFPS = 60;
 
     this.renderer = new Renderer({
       width: 1280,
@@ -36,7 +37,7 @@ export class GameEngine {
     this.ticker.add((deltaTime) => {
       this.entityManager.updateSystems(deltaTime);
 
-      PhysEngine.update(this.physEngine, 1000 / 60);
+      PhysEngine.update(this.physEngine, this.ticker.deltaMS, deltaTime);
 
       this.renderer.render(this.stage);
     });

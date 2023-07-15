@@ -6,8 +6,8 @@ import { enemyFactory } from "./entities/enemy";
 
 const gameEngine = new GameEngine();
 
-gameEngine.addEntity(await playerFactory());
 gameEngine.addEntity(enemyFactory());
+gameEngine.addEntity(await playerFactory());
 
 gameEngine.addEntity(
   (() => {

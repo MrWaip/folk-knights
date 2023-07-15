@@ -1,6 +1,6 @@
 export const ecsQueries = (ecs: App.ECSWorld) => {
   const bodied = ecs.with("body");
-  const controlledByInput = bodied.with("playerInput");
+  const controlledByInput = bodied.with("playerInput").with("direction");
   const renderable = bodied.with("render");
   const jumpers = bodied.with("jump");
   const playerAnimation = ecs.with(
@@ -8,7 +8,8 @@ export const ecsQueries = (ecs: App.ECSWorld) => {
     "render",
     "playerInput",
     "playerAnimation",
-    "jump"
+    "jump",
+    "direction"
   );
 
   return {

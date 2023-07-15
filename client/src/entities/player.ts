@@ -43,6 +43,7 @@ export async function playerFactory(): Promise<App.ECSEntity> {
   return {
     body,
     render,
+    direction: 1,
     playerAnimation: {
       name: "",
       spritesheet: spritesheet,

@@ -1,4 +1,4 @@
-import { Body, Vector } from "matter-js";
+import { Body } from "matter-js";
 
 export const playerMovementSystem: App.ECSSystem = ({ queries }) => {
   for (const {
@@ -10,17 +10,6 @@ export const playerMovementSystem: App.ECSSystem = ({ queries }) => {
     const velocityMultiplier = playerInput.isRunning ? 8 : 4;
 
     if (playerAttack?.isAttacking) {
-      const direction = playerInput.isMovingRight
-        ? 1
-        : playerInput.isMovingLeft
-        ? -1
-        : 0;
-
-      Body.setVelocity(body, {
-        x: Math.sign(direction) * 2,
-        y: 0,
-      });
-
       continue;
     }
 

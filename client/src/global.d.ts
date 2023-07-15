@@ -13,6 +13,7 @@ declare global {
       body?: Body;
       position?: { x: number; y: number };
       velocity?: { x: number; y: number };
+      direction?: -1 | 1;
       playerInput?: PlayerInputComponent;
       jump?: { isJumping: boolean; velocity: number; isGrounded: boolean };
       collision?: { isGrounded: boolean };
