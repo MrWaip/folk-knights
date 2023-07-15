@@ -37,7 +37,7 @@ export class GameEngine {
     this.ticker.add((deltaTime) => {
       this.entityManager.updateSystems(deltaTime);
 
-      PhysEngine.update(this.physEngine, this.ticker.deltaMS, deltaTime);
+      PhysEngine.update(this.physEngine, this.ticker.deltaMS);
 
       this.renderer.render(this.stage);
     });
